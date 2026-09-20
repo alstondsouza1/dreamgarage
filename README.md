@@ -4,7 +4,7 @@ Submitted by: **Alston Dsouza**
 
 About this web app: **DreamGarage is a list-based web app where users can explore iconic performance cars and view detailed information about each car.**
 
-Time spent: **9 hours**
+Time spent: **11 hours**
 
 ## Required Features
 
@@ -16,7 +16,7 @@ The following **required** functionality is completed:
 - [x] **The user can click on each item in the list to see a detailed view of it, including all database fields**
   - [x] **Each detail view has a unique endpoint, such as `localhost:3000/cars/1` and `localhost:3000/cars/3`**
 - [x] **The web app serves an appropriate 404 page when no matching route is defined**
-- [x] **The web app is styled using Picocss**
+- [x] **The web app is styled using PicoCSS**
 
 The following **optional** features are implemented:
 
