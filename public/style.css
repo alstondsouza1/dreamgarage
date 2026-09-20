@@ -1,0 +1,29 @@
+/* Car detail page */
+
+#car-content {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  
+  #car-image {
+    width: 100%;
+    max-width: 800px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 25px;
+  }
+  
+  header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px 20px;
+  }
+  
+  #car-content h2 {
+    margin-top: 0;
+  }
+  
+  #car-content p {
+    margin-bottom: 15px;
+  }

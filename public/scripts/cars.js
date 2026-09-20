@@ -11,6 +11,10 @@ const renderCars = async () => {
   
         const carCard = document.createElement('article')
   
+        const carImage = document.createElement('img')
+        carImage.src = car.image
+        carImage.alt = car.name
+  
         const carName = document.createElement('h2')
         carName.textContent = car.name
   
@@ -27,6 +31,7 @@ const renderCars = async () => {
         viewCar.textContent = 'View Car'
         viewCar.href = `/cars/${car.id}`
   
+        carCard.appendChild(carImage)
         carCard.appendChild(carName)
         carCard.appendChild(carManufacturer)
         carCard.appendChild(carHorsepower)

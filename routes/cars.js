@@ -13,6 +13,19 @@ router.get('/', (req, res) => {
   res.status(200).json(carData)
 })
 
+// Get individual car data
+router.get('/:carId/data', (req, res) => {
+  const requestedID = parseInt(req.params.carId)
+
+  const car = carData.find(car => car.id === requestedID)
+
+  if (car) {
+    res.status(200).json(car)
+  } else {
+    res.status(404).json({ message: 'Car not found' })
+  }
+})
+
 // Get individual car page
 router.get('/:carId', (req, res) => {
   const requestedID = parseInt(req.params.carId)

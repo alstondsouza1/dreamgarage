@@ -1,49 +1,44 @@
 const renderCar = async () => {
-
-    // Get car ID from URL
-    const requestedID = parseInt(
-      window.location.pathname.split('/').pop()
-    )
+    const path = window.location.pathname
+    const id = path.split('/').pop()
   
-    // Get all cars from Express
-    const response = await fetch('/cars')
-    const data = await response.json()
+    try {
+      const response = await fetch(`/cars/${id}/data`)
   
-    // Find matching car
-    const car = data.find(car => car.id === requestedID)
+      if (!response.ok) {
+        window.location.href = '/404.html'
+        return
+      }
   
-    const carContent = document.getElementById('car-content')
+      const data = await response.json()
   
-    if (car) {
+      const carImage = document.getElementById('car-image')
+      carImage.src = data.image
+      carImage.alt = data.name
   
-      document.getElementById('name').textContent = car.name
+      const carName = document.getElementById('name')
+      carName.textContent = data.name
   
-      document.getElementById('manufacturer').textContent =
-        `Manufacturer: ${car.manufacturer}`
+      const carManufacturer = document.getElementById('manufacturer')
+      carManufacturer.textContent = `Manufacturer: ${data.manufacturer}`
   
-      document.getElementById('country').textContent =
-        `Country: ${car.country}`
+      const carCountry = document.getElementById('country')
+      carCountry.textContent = `Country: ${data.country}`
   
-      document.getElementById('year').textContent =
-        `Year: ${car.year}`
+      const carYear = document.getElementById('year')
+      carYear.textContent = `Year: ${data.year}`
   
-      document.getElementById('horsepower').textContent =
-        `Horsepower: ${car.horsepower} HP`
+      const carHorsepower = document.getElementById('horsepower')
+      carHorsepower.textContent = `Horsepower: ${data.horsepower} HP`
   
-      document.getElementById('category').textContent =
-        `Category: ${car.category}`
+      const carCategory = document.getElementById('category')
+      carCategory.textContent = `Category: ${data.category}`
   
-      document.getElementById('description').textContent =
-        car.description
+      const carDescription = document.getElementById('description')
+      carDescription.textContent = data.description
   
-      document.title = `DreamGarage - ${car.name}`
-  
-    } else {
-  
-      const message = document.createElement('h2')
-      message.textContent = 'Car Not Found'
-  
-      carContent.appendChild(message)
+    } catch (error) {
+      console.error('Error loading car:', error)
     }
   }
   
