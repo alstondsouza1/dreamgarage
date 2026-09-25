@@ -1,45 +1,42 @@
 import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import carData from '../data/cars.js'
+import pool from '../config/database.js'
+import { getCars, getCarById } from '../controllers/cars.js'
 
 const router = express.Router()
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-// Get all cars
-router.get('/', (req, res) => {
-  res.status(200).json(carData)
-})
+// Get all cars from PostgreSQL
+router.get('/', getCars)
 
-// Get individual car data
-router.get('/:carId/data', (req, res) => {
-  const requestedID = parseInt(req.params.carId)
-
-  const car = carData.find(car => car.id === requestedID)
-
-  if (car) {
-    res.status(200).json(car)
-  } else {
-    res.status(404).json({ message: 'Car not found' })
-  }
-})
+// Get individual car data from PostgreSQL
+router.get('/:carId/data', getCarById)
 
 // Get individual car page
-router.get('/:carId', (req, res) => {
-  const requestedID = parseInt(req.params.carId)
+router.get('/:carId', async (req, res) => {
+  try {
+    const requestedID = parseInt(req.params.carId)
 
-  const car = carData.find(car => car.id === requestedID)
+    const results = await pool.query(
+      'SELECT id FROM cars WHERE id = $1',
+      [requestedID]
+    )
 
-  if (car) {
-    res.status(200).sendFile(
-      path.resolve(__dirname, '../public/car.html')
-    )
-  } else {
-    res.status(404).sendFile(
-      path.resolve(__dirname, '../public/404.html')
-    )
+    if (results.rows.length > 0) {
+      res.status(200).sendFile(
+        path.resolve(__dirname, '../public/car.html')
+      )
+    } else {
+      res.status(404).sendFile(
+        path.resolve(__dirname, '../public/404.html')
+      )
+    }
+  } catch (error) {
+    console.error(error)
+    res.status(500).send('Server error')
   }
 })
 
