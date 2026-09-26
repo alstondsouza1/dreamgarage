@@ -1,33 +1,49 @@
 const renderCar = async () => {
 
-  const path = window.location.pathname
-  const id = path.split('/').pop()
+  try {
 
-  const response = await fetch(`/cars/${id}/data`)
-  const data = await response.json()
+    const path = window.location.pathname
+    const id = path.split('/').pop()
 
-  document.getElementById('car-image').src = data.image
-  document.getElementById('car-image').alt = data.name
+    const response = await fetch(`/cars/${id}/data`)
 
-  document.getElementById('name').textContent = data.name
+    if (!response.ok) {
+      window.location.href = '/404.html'
+      return
+    }
 
-  document.getElementById('manufacturer').textContent =
-    `Manufacturer: ${data.manufacturer}`
+    const data = await response.json()
 
-  document.getElementById('country').textContent =
-    `Country: ${data.country}`
+    document.getElementById('car-image').src = data.image
+    document.getElementById('car-image').alt = data.name
 
-  document.getElementById('year').textContent =
-    `Year: ${data.year}`
+    document.getElementById('name').textContent = data.name
 
-  document.getElementById('horsepower').textContent =
-    `Horsepower: ${data.horsepower} HP`
+    document.getElementById('manufacturer').textContent =
+      `Manufacturer: ${data.manufacturer}`
 
-  document.getElementById('category').textContent =
-    `Category: ${data.category}`
+    document.getElementById('country').textContent =
+      `Country: ${data.country}`
 
-  document.getElementById('description').textContent =
-    data.description
+    document.getElementById('year').textContent =
+      `Year: ${data.year}`
+
+    document.getElementById('horsepower').textContent =
+      `Horsepower: ${data.horsepower} HP`
+
+    document.getElementById('category').textContent =
+      `Category: ${data.category}`
+
+    document.getElementById('description').textContent =
+      data.description
+
+  } catch (error) {
+
+    console.error('Error loading car:', error)
+    window.location.href = '/404.html'
+
+  }
+
 }
 
 renderCar()
